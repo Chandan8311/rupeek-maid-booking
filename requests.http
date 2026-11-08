@@ -1,0 +1,70 @@
+### 1. Create a maid (copy the returned ID to @maidId below)
+POST http://localhost:8080/api/v1/maids
+Content-Type: application/json
+
+{
+  "name": "Anita",
+  "locality": "HSR Layout",
+  "gender": "FEMALE",
+  "rating": 4.8,
+  "hourly_rate": 300,
+  "skills": ["cleaning", "cooking"],
+  "availability": [
+    { "day_of_week": "MONDAY", "from": "08:00:00", "to": "20:00:00" },
+    { "day_of_week": "WEDNESDAY", "from": "08:00:00", "to": "20:00:00" }
+  ]
+}
+
+### 2. Search using JSON POST (all POSTs use payloads)
+POST http://localhost:8080/api/v1/maids/search
+Content-Type: application/json
+
+{
+  "locality": "HSR Layout",
+  "service_type": "cleaning",
+  "start_at": "2030-01-07T10:00:00",
+  "duration_minutes": 60
+}
+
+### 3. Book (replace the UUID; copy booking/occurrence IDs from the response)
+POST http://localhost:8080/api/v1/bookings
+Content-Type: application/json
+
+{
+  "maid_id": "REPLACE_WITH_MAID_UUID",
+  "customer_id": "CUSTOMER-101",
+  "service_type": "cleaning",
+  "type": "SCHEDULED",
+  "start_at": "2030-01-07T10:00:00",
+  "duration_minutes": 60
+}
+
+### 4. Pay one occurrence
+POST http://localhost:8080/api/v1/payments
+Content-Type: application/json
+
+{
+  "booking_id": "REPLACE_WITH_BOOKING_UUID",
+  "occurrence_id": "REPLACE_WITH_OCCURRENCE_UUID",
+  "method": "UPI",
+  "idempotency_key": "CUSTOMER-101-pay-1"
+}
+
+### 5. Cancel one occurrence
+POST http://localhost:8080/api/v1/bookings/cancellations
+Content-Type: application/json
+
+{
+  "booking_id": "REPLACE_WITH_BOOKING_UUID",
+  "scope": "OCCURRENCE",
+  "occurrence_id": "REPLACE_WITH_OCCURRENCE_UUID"
+}
+
+### 6. Cancel all future occurrences of a recurring series
+POST http://localhost:8080/api/v1/bookings/cancellations
+Content-Type: application/json
+
+{
+  "booking_id": "REPLACE_WITH_BOOKING_UUID",
+  "scope": "SERIES"
+}

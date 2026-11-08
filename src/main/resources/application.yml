@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: maid-booking
+server:
+  port: 8080
