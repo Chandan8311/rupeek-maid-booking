@@ -72,7 +72,7 @@ Content-Type: application/json
 
 **Response:** HTTP 201, JSON maid profile with a generated `id` and `Location` header. Overlapping windows on the same weekday are rejected.
 
-### 2. Search maids (body-based)
+### 2. Search maids 
 
 ```http
 GET /api/v1/maids/
